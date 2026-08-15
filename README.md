@@ -2,6 +2,8 @@
 
 just a portfolio i made. don’t expect anything good, it’s kinda eh right now but hey it works.
 
+this was actually for a school activity, but i ended up changing pretty much everything and didn’t really follow the given template. just went with my own ideas and made it look how i wanted instead.
+
 might add more stuff or update it sometime, somewhere, somehow. idk we’ll see.
 
 also yeah, everything is in one `index.html` because i’m kinda lazy to deal with separate files and fix stuff when something breaks.

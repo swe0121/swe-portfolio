@@ -1,1962 +1,856 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>:...:</title>
-
+<title>:...: SPACE PORTFOLIO</title>
 <style>
-
 /* =========================
-   GENERAL
+   MARS 8-BIT SPACE THEME
 ========================= */
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
 
-* {
-    box-sizing: border-box;
-}
-
-html {
-    scroll-behavior: smooth;
+:root {
+    --black: #050403;
+    --panel: #0d0907;
+    --mars: #b64222;
+    --mars-light: #ef6b3a;
+    --mars-dark: #612414;
+    --sand: #d69062;
+    --dust: #8c3d27;
+    --white: #f4e7df;
+    --muted: #ad8c7d;
 }
 
 body {
     margin: 0;
-    font-family: "Courier New", monospace;
-    color: white;
-
-    background-color: #05050d;
-
-    background-image:
-        linear-gradient(
-            rgba(0,255,255,0.08) 1px,
-            transparent 1px
-        ),
-        linear-gradient(
-            90deg,
-            rgba(255,0,255,0.08) 1px,
-            transparent 1px
-        );
-
-    background-size: 50px 50px;
-
+    min-height: 100vh;
     overflow-x: hidden;
+    color: var(--white);
+    background:
+        radial-gradient(circle at 50% 115%, rgba(182,66,34,.35) 0 20%, transparent 42%),
+        linear-gradient(#030201, #090503 55%, #120704);
+    font-family: "Courier New", monospace;
+    image-rendering: pixelated;
 }
 
+body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    opacity: .18;
+    background-image:
+        linear-gradient(rgba(239,107,58,.18) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(239,107,58,.18) 1px, transparent 1px);
+    background-size: 32px 32px;
+    mask-image: linear-gradient(to bottom, #000, transparent 75%);
+}
+
+button, input, textarea { font: inherit; }
+button, a { -webkit-tap-highlight-color: transparent; }
 
 /* =========================
    LOADING SCREEN
 ========================= */
-
 .loading-screen {
     position: fixed;
-
-    top: 0;
-    left: 0;
-
-    width: 100%;
-    height: 100%;
-
+    inset: 0;
     z-index: 9999;
-
-    display: flex;
-    justify-content: center;
-    align-items: center;
-
-    background-color: #05050d;
-
-    background-image:
-        linear-gradient(
-            rgba(0,255,255,0.08) 1px,
-            transparent 1px
-        ),
-        linear-gradient(
-            90deg,
-            rgba(255,0,255,0.08) 1px,
-            transparent 1px
-        );
-
-    background-size: 50px 50px;
-
-    transition:
-        opacity 0.5s ease,
-        visibility 0.5s ease;
+    display: grid;
+    place-items: center;
+    background: #030201;
+    transition: opacity .45s ease, visibility .45s ease;
 }
 
-
-.loading-screen.hide {
-    opacity: 0;
-    visibility: hidden;
-}
-
+.loading-screen.hide { opacity: 0; visibility: hidden; }
 
 .loading-box {
-    width: 500px;
-    max-width: 85%;
-
-    padding: 50px;
-
+    width: min(430px, 86vw);
+    padding: 34px 28px;
     text-align: center;
-
-    background-color: #0b0b18;
-
-    border: 4px solid #00ffff;
-
-    box-shadow:
-        12px 12px #ff00ff;
+    background: var(--panel);
+    border: 3px solid var(--mars-light);
+    box-shadow: 8px 8px 0 var(--mars-dark);
 }
-
 
 .loading-box h1 {
     margin: 0;
-
-    color: #00ffff;
-
-    font-size: 65px;
-
-    letter-spacing: 10px;
-
-    text-shadow:
-        6px 6px #ff00ff;
-
-    animation:
-        loadingGlow 1s infinite alternate;
+    color: var(--mars-light);
+    font-size: clamp(38px, 10vw, 62px);
+    letter-spacing: 9px;
+    text-shadow: 4px 4px 0 var(--mars-dark);
 }
-
 
 .loading-box p {
-    margin-top: 30px;
-
-    color: #39ff14;
-
-    font-weight: bold;
-
+    margin: 24px 0 0;
+    color: var(--sand);
+    font-size: 13px;
     letter-spacing: 3px;
 }
-
 
 .loading-box span {
     display: block;
-
-    margin-top: 20px;
-
-    color: #ff66ff;
-
-    font-size: 13px;
-
-    letter-spacing: 3px;
-
-    animation:
-        loadingBlink 0.8s infinite;
+    margin-top: 16px;
+    color: var(--muted);
+    font-size: 11px;
+    letter-spacing: 2px;
+    animation: blink .8s steps(2) infinite;
 }
-
 
 .loading-bar {
-    width: 100%;
-    height: 25px;
-
-    margin-top: 30px;
-
-    padding: 4px;
-
-    background-color: #05050d;
-
-    border: 3px solid #00ffff;
+    height: 16px;
+    margin-top: 22px;
+    padding: 3px;
+    border: 2px solid var(--mars-light);
+    background: #020101;
 }
-
 
 .loading-progress {
-    width: 0%;
+    width: 0;
     height: 100%;
-
-    background-color: #39ff14;
-
-    box-shadow:
-        0 0 10px #39ff14;
-
-    animation:
-        loadingBar 2.5s forwards;
+    background: var(--mars);
+    animation: loadingBar 2s steps(8) forwards;
 }
 
+/* =========================
+   PIXEL SPACE BACKGROUND
+========================= */
+.space-decor {
+    position: fixed;
+    inset: 0;
+    overflow: hidden;
+    pointer-events: none;
+    z-index: 0;
+}
+
+.star {
+    position: absolute;
+    width: 3px;
+    height: 3px;
+    background: #fff3e9;
+    box-shadow: 0 0 0 1px rgba(255,255,255,.08);
+    animation: twinkle 2.5s steps(2) infinite;
+}
+
+.star.big {
+    width: 5px;
+    height: 5px;
+    background: var(--mars-light);
+}
+
+.star:nth-child(1){left:5%;top:12%;animation-delay:.2s}
+.star:nth-child(2){left:14%;top:38%;animation-delay:1.1s}
+.star:nth-child(3){left:23%;top:18%;animation-delay:.7s}
+.star:nth-child(4){left:31%;top:62%;animation-delay:1.6s}
+.star:nth-child(5){left:43%;top:10%;animation-delay:.5s}
+.star:nth-child(6){left:51%;top:46%;animation-delay:1.4s}
+.star:nth-child(7){left:62%;top:25%;animation-delay:.9s}
+.star:nth-child(8){left:70%;top:74%;animation-delay:.3s}
+.star:nth-child(9){left:81%;top:15%;animation-delay:1.8s}
+.star:nth-child(10){left:91%;top:52%;animation-delay:.6s}
+.star:nth-child(11){left:8%;top:82%;animation-delay:1.2s}
+.star:nth-child(12){left:95%;top:88%;animation-delay:.1s}
+.star:nth-child(13){left:37%;top:86%;animation-delay:1.9s}
+.star:nth-child(14){left:57%;top:91%;animation-delay:.8s}
+.star:nth-child(15){left:76%;top:42%;animation-delay:1.5s}
+
+.pixel-ship {
+    position: absolute;
+    width: 42px;
+    height: 18px;
+    background: var(--mars-light);
+    box-shadow:
+        8px -6px 0 var(--sand),
+        16px -6px 0 var(--sand),
+        34px 4px 0 var(--mars-dark),
+        -8px 4px 0 var(--mars-dark),
+        8px 18px 0 -5px var(--mars);
+    clip-path: polygon(0 40%,20% 40%,20% 10%,65% 10%,65% 30%,100% 45%,65% 60%,65% 90%,20% 90%,20% 60%,0 60%);
+    filter: drop-shadow(4px 4px 0 #1c0b06);
+}
+
+.ship-one {
+    top: 19%;
+    left: -70px;
+    animation: flyAcross 18s linear infinite;
+}
+
+.ship-two {
+    top: 68%;
+    right: -80px;
+    transform: scaleX(-1) scale(.75);
+    animation: flyBack 23s linear infinite 4s;
+}
+
+.planet {
+    position: absolute;
+    right: 7%;
+    top: 14%;
+    width: 95px;
+    height: 95px;
+    border-radius: 50%;
+    background:
+        linear-gradient(12deg, transparent 42%, rgba(92,30,15,.85) 43% 51%, transparent 52%),
+        linear-gradient(-16deg, transparent 58%, rgba(239,107,58,.35) 59% 64%, transparent 65%),
+        var(--mars);
+    box-shadow: inset -18px -10px 0 var(--mars-dark), 8px 8px 0 rgba(0,0,0,.32);
+    opacity: .85;
+}
+
+/* =========================
+   TOP SCATTERED MENU
+========================= */
+.top-nav {
+    position: absolute;
+    top: 18px;
+    left: 50%;
+    width: min(950px, 92vw);
+    transform: translateX(-50%);
+    z-index: 20;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    align-items: start;
+    gap: 20px;
+}
+
+.top-nav button {
+    width: max-content;
+    min-width: 105px;
+    justify-self: center;
+    padding: 9px 13px;
+    color: var(--sand);
+    background: rgba(8,4,3,.88);
+    border: 2px solid var(--mars-dark);
+    box-shadow: 4px 4px 0 #1a0905;
+    cursor: pointer;
+    text-transform: uppercase;
+    font-size: 11px;
+    letter-spacing: 2px;
+    transition: .15s;
+}
+
+.top-nav button:nth-child(1) { transform: translateY(14px) rotate(-2deg); }
+.top-nav button:nth-child(2) { transform: translateY(2px) rotate(2deg); }
+.top-nav button:nth-child(3) { transform: translateY(18px) rotate(1deg); }
+.top-nav button:nth-child(4) { transform: translateY(6px) rotate(-2deg); }
+
+.top-nav button:hover {
+    color: #0a0302;
+    background: var(--mars-light);
+    border-color: var(--mars-light);
+    transform: translateY(-2px) !important;
+}
 
 /* =========================
    HOME
 ========================= */
-
 .home {
     min-height: 100vh;
-
-    display: flex;
-
-    justify-content: center;
-    align-items: center;
-
     position: relative;
-
-    padding: 40px;
+    z-index: 1;
+    display: grid;
+    place-items: center;
+    padding: 120px 24px 70px;
 }
 
-
-.main-box {
-    width: 850px;
-
-    max-width: 90%;
-
-    padding:
-        70px 55px;
-
+.hero {
+    width: min(760px, 92vw);
     text-align: center;
-
-    background-color: #0b0b18;
-
-    border:
-        4px solid #00ffff;
-
-    box-shadow:
-        14px 14px #ff00ff;
-
     position: relative;
-
     z-index: 5;
-
-    animation:
-        mainAppear 0.6s ease;
 }
 
+.hero-kicker {
+    margin-bottom: 14px;
+    color: var(--muted);
+    font-size: 11px;
+    letter-spacing: 5px;
+}
 
-.main-box h1 {
+.hero h1 {
     margin: 0;
-
-    font-size: 85px;
-
-    letter-spacing: 12px;
-
-    color: #00ffff;
-
-    text-shadow:
-        7px 7px #ff00ff,
-        0 0 20px #00ffff;
-
-    animation:
-        titleGlow 1.5s infinite alternate;
+    color: var(--mars-light);
+    font-size: clamp(54px, 12vw, 110px);
+    line-height: .85;
+    letter-spacing: 10px;
+    text-shadow: 7px 7px 0 var(--mars-dark);
 }
-
 
 .subtitle {
-    margin:
-        30px 0 50px;
-
-    color: #39ff14;
-
+    margin: 28px 0 10px;
+    color: var(--white);
     letter-spacing: 8px;
-
-    font-weight: bold;
+    font-size: 14px;
 }
 
-
-/* =========================
-   MENU
-========================= */
-
-.menu {
-    display: grid;
-
-    grid-template-columns:
-        1fr 1fr;
-
-    gap: 25px;
+.hero-copy {
+    width: min(560px, 90%);
+    margin: 22px auto 0;
+    color: var(--muted);
+    line-height: 1.8;
+    font-size: 13px;
 }
-
-
-.menu button {
-    padding: 23px;
-
-    color: white;
-
-    font-family:
-        "Courier New",
-        monospace;
-
-    font-size: 17px;
-
-    font-weight: bold;
-
-    cursor: pointer;
-
-    background-color: #111122;
-
-    border:
-        3px solid #00ffff;
-
-    box-shadow:
-        6px 6px #ff00ff;
-
-    transition: 0.15s;
-}
-
-
-.menu button:nth-child(2) {
-    border-color: #ff00ff;
-}
-
-
-.menu button:nth-child(3) {
-    border-color: #39ff14;
-}
-
-
-.menu button:nth-child(4) {
-    border-color: #ffee00;
-}
-
-
-.menu button:hover {
-    background-color: #00ffff;
-
-    color: black;
-
-    transform:
-        translate(-5px, -5px);
-
-    box-shadow:
-        11px 11px #ff00ff;
-}
-
-
-/* =========================
-   GAME LINK
-========================= */
 
 .game-link {
-    display: block;
-
-    margin-top: 35px;
-
-    padding: 18px;
-
-    color: white;
-
+    display: inline-block;
+    margin-top: 36px;
+    padding: 11px 15px;
+    color: var(--mars-light);
     text-decoration: none;
-
-    font-weight: bold;
-
-    background-color: #111122;
-
-    border:
-        3px solid #ff6633;
-
-    box-shadow:
-        6px 6px #ff00ff;
-
-    transition: 0.15s;
+    border: 2px solid var(--mars-dark);
+    background: #080403;
+    box-shadow: 4px 4px 0 #1c0b06;
+    font-size: 11px;
+    letter-spacing: 2px;
 }
-
 
 .game-link:hover {
-    background-color: #ff6633;
-
-    color: black;
-
-    transform:
-        translate(-4px, -4px);
+    color: #080403;
+    background: var(--mars-light);
+    border-color: var(--mars-light);
 }
 
-
-/* =========================
-   FLOATING PIXELS
-========================= */
-
-.pixel {
+.mars-ground {
     position: absolute;
-
-    width: 32px;
-    height: 32px;
-
-    animation:
-        pixelMove 6s infinite alternate ease-in-out;
+    left: -8%;
+    bottom: -55px;
+    width: 116%;
+    height: 140px;
+    background: var(--mars-dark);
+    clip-path: polygon(0 65%,8% 48%,15% 57%,27% 24%,38% 60%,48% 42%,58% 67%,70% 30%,79% 54%,88% 39%,100% 62%,100% 100%,0 100%);
+    opacity: .7;
 }
-
-
-.pixel1 {
-    top: 20%;
-    left: 10%;
-
-    background: #00ffff;
-}
-
-
-.pixel2 {
-    top: 15%;
-    right: 9%;
-
-    background: #ff00ff;
-
-    animation-duration: 8s;
-}
-
-
-.pixel3 {
-    bottom: 10%;
-    left: 20%;
-
-    background: #39ff14;
-
-    animation-duration: 7s;
-}
-
-
-.pixel4 {
-    bottom: 15%;
-    right: 17%;
-
-    background: #ffee00;
-
-    animation-duration: 9s;
-}
-
-
-.pixel5 {
-    top: 55%;
-    left: 5%;
-
-    background: #00ffff;
-
-    animation-duration: 7.5s;
-}
-
-
-.pixel6 {
-    top: 60%;
-    right: 6%;
-
-    background: #ff00ff;
-
-    animation-duration: 6.5s;
-}
-
 
 /* =========================
    POPUPS
 ========================= */
-
 .popup {
     display: none;
-
     position: fixed;
-
-    top: 0;
-    left: 0;
-
-    width: 100%;
-    height: 100%;
-
-    z-index: 999;
-
-    justify-content: center;
-    align-items: center;
-
-    padding: 30px;
-
-    background-color:
-        rgba(0,0,0,0.85);
+    inset: 0;
+    z-index: 1000;
+    place-items: center;
+    padding: 24px;
+    background: rgba(0,0,0,.82);
 }
 
-
-.popup.open {
-    display: flex;
-}
-
+.popup.open { display: grid; }
 
 .popup-box {
-    position: relative;
-
-    width: 650px;
-
-    max-width: 95%;
-
-    max-height: 85vh;
-
+    width: min(620px, 94vw);
+    max-height: 82vh;
     overflow-y: auto;
-
-    padding: 45px;
-
-    background-color: #0b0b18;
-
-    border:
-        4px solid #00ffff;
-
-    box-shadow:
-        12px 12px #ff00ff;
-
-    animation:
-        popupAppear 0.2s ease;
+    position: relative;
+    padding: 38px 34px 32px;
+    background: #0b0705;
+    border: 2px solid var(--mars);
+    box-shadow: 8px 8px 0 #2a0f08;
+    animation: popupAppear .18s steps(4);
 }
-
 
 .popup-box h2 {
-    margin-top: 0;
-
-    color: #39ff14;
-
-    letter-spacing: 4px;
-
-    text-shadow:
-        3px 3px #174414;
+    margin: 0 0 24px;
+    color: var(--mars-light);
+    font-size: 22px;
+    letter-spacing: 5px;
 }
-
 
 .popup-box p {
+    color: #d7c2b7;
     line-height: 1.8;
+    font-size: 13px;
 }
-
 
 .close-button {
     position: absolute;
-
-    top: 12px;
-    right: 12px;
-
-    width: 42px;
-    height: 42px;
-
-    border: none;
-
-    color: white;
-
-    background-color: #ff00ff;
-
-    font-family:
-        "Courier New",
-        monospace;
-
-    font-weight: bold;
-
+    top: 10px;
+    right: 10px;
+    width: 34px;
+    height: 34px;
+    color: var(--white);
+    background: var(--mars-dark);
+    border: 0;
     cursor: pointer;
-
-    box-shadow:
-        4px 4px #701470;
+    box-shadow: 3px 3px 0 #1a0704;
 }
 
+.close-button:hover { background: var(--mars); }
 
-.close-button:hover {
-    background-color: #00ffff;
-
-    color: black;
+.empty-projects,
+.social-links {
+    padding: 20px;
+    background: #080403;
+    border: 1px solid var(--mars-dark);
 }
-
-
-/* =========================
-   PROJECTS
-========================= */
-
-.empty-projects {
-    padding: 35px;
-
-    text-align: center;
-
-    background-color: #111122;
-
-    border:
-        3px solid #ff00ff;
-
-    box-shadow:
-        6px 6px #00ffff;
-}
-
-
-.empty-projects p {
-    line-height: 1.8;
-}
-
-
-/* =========================
-   SKILLS
-========================= */
 
 .skills-grid {
     display: grid;
-
-    grid-template-columns:
-        1fr 1fr;
-
-    gap: 20px;
+    grid-template-columns: repeat(2, minmax(0,1fr));
+    gap: 12px;
 }
-
 
 .skill {
-    padding: 20px;
-
+    padding: 14px 10px;
     text-align: center;
-
-    font-weight: bold;
-
-    background-color: #111122;
-
-    border:
-        3px solid #00ffff;
-
-    box-shadow:
-        5px 5px #ff00ff;
-
-    transition: 0.15s;
+    color: var(--sand);
+    background: #080403;
+    border: 1px solid var(--mars-dark);
+    font-size: 12px;
 }
-
-
-.skill:nth-child(even) {
-    border-color: #39ff14;
-
-    box-shadow:
-        5px 5px #176613;
-}
-
 
 .skill:hover {
-    background-color: #00ffff;
-
-    color: black;
-
-    transform:
-        translate(-3px, -3px);
+    color: #090302;
+    background: var(--mars-light);
 }
 
+.social-links { margin-bottom: 20px; }
+.social-links p { margin: 9px 0; }
+.social-links a { color: var(--mars-light); text-decoration: none; }
 
-/* =========================
-   CONTACT
-========================= */
-
-.social-links {
-    margin-bottom: 30px;
-
-    padding: 20px;
-
-    background-color: #111122;
-
-    border:
-        3px solid #ff00ff;
-
-    box-shadow:
-        5px 5px #00ffff;
-}
-
-
-.social-links p {
-    margin: 10px 0;
-}
-
-
-.social-links a {
-    color: #39ff14;
-
-    text-decoration: none;
-
-    font-weight: bold;
-}
-
-
-.social-links a:hover {
-    color: #00ffff;
-
-    text-shadow:
-        0 0 10px #00ffff;
-}
-
-
-form {
+form { width: 100%; }
+input, textarea {
     width: 100%;
+    margin-bottom: 12px;
+    padding: 12px;
+    color: var(--white);
+    background: #050302;
+    border: 1px solid var(--mars-dark);
+    outline: 0;
 }
+input:focus, textarea:focus { border-color: var(--mars-light); }
+textarea { height: 110px; resize: none; }
 
-
-input,
-textarea {
-    width: 100%;
-
-    margin-bottom: 18px;
-
-    padding: 15px;
-
-    color: white;
-
-    background-color: #05050d;
-
-    border:
-        3px solid #00ffff;
-
-    font-family:
-        "Courier New",
-        monospace;
-}
-
-
-input:focus,
-textarea:focus {
-    outline: none;
-
-    border-color: #ff00ff;
-
-    box-shadow:
-        0 0 12px #ff00ff;
-}
-
-
-textarea {
-    height: 120px;
-
-    resize: none;
-}
-
-
-.send-button {
-    padding:
-        14px 25px;
-
-    border: none;
-
-    color: black;
-
-    background-color: #39ff14;
-
-    font-family:
-        "Courier New",
-        monospace;
-
+.send-button,
+.start-button {
+    padding: 11px 16px;
+    color: #080302;
+    background: var(--mars-light);
+    border: 0;
+    box-shadow: 4px 4px 0 var(--mars-dark);
     font-weight: bold;
-
     cursor: pointer;
-
-    box-shadow:
-        5px 5px #176613;
 }
 
-
-.send-button:hover {
-    background-color: #00ffff;
-}
-
+.send-button:hover,
+.start-button:hover { background: var(--sand); }
 
 /* =========================
    MINI GAME
 ========================= */
-
 .game-section {
     min-height: 100vh;
-
-    display: flex;
-
-    justify-content: center;
-    align-items: center;
-
-    padding:
-        70px 30px;
+    position: relative;
+    z-index: 2;
+    display: grid;
+    place-items: center;
+    padding: 80px 24px;
+    background: linear-gradient(#100604, #040201);
 }
-
 
 .game-container {
-    width: 800px;
-
-    max-width: 95%;
-
-    padding: 40px;
-
+    width: min(760px, 94vw);
+    padding: 30px;
     text-align: center;
-
-    background-color: #0b0b18;
-
-    border:
-        4px solid #ff6633;
-
-    box-shadow:
-        12px 12px #00ffff;
+    background: #090503;
+    border: 2px solid var(--mars-dark);
+    box-shadow: 8px 8px 0 #1b0905;
 }
-
 
 .game-container h2 {
-    margin-top: 0;
-
-    color: #39ff14;
-
-    font-size: 35px;
-
+    margin: 0;
+    color: var(--mars-light);
     letter-spacing: 5px;
-
-    text-shadow:
-        4px 4px #174414;
 }
-
 
 .game-description {
-    color: #ccccdd;
+    color: var(--muted);
+    font-size: 12px;
+    line-height: 1.7;
 }
-
 
 .game-stats {
     display: flex;
-
-    justify-content: space-between;
-
-    gap: 20px;
-
-    margin:
-        30px 0 20px;
-
-    color: #ffee00;
-
-    font-weight: bold;
-
+    justify-content: center;
     flex-wrap: wrap;
+    gap: 24px;
+    margin: 24px 0 16px;
+    color: var(--sand);
+    font-size: 11px;
 }
 
-
-.game-stats span {
-    color: #00ffff;
-
-    font-size: 22px;
-}
-
+.game-stats span { color: var(--mars-light); font-size: 18px; }
 
 .game-area {
     width: 100%;
-
-    height: 350px;
-
+    height: 330px;
     position: relative;
-
     overflow: hidden;
-
-    background-color: #020207;
-
-    border:
-        4px solid #00ffff;
-
-    background-image:
-        linear-gradient(
-            rgba(0,255,255,0.08) 1px,
-            transparent 1px
-        ),
-        linear-gradient(
-            90deg,
-            rgba(255,0,255,0.08) 1px,
-            transparent 1px
-        );
-
-    background-size:
-        25px 25px;
+    background:
+        radial-gradient(circle at 40% 80%, rgba(182,66,34,.2), transparent 20%),
+        #020101;
+    border: 2px solid var(--mars-dark);
 }
 
+.game-area::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    opacity: .32;
+    background-image:
+        radial-gradient(circle, #fff 1px, transparent 1.5px),
+        radial-gradient(circle, var(--mars-light) 1px, transparent 1.5px);
+    background-size: 38px 38px, 57px 57px;
+    background-position: 0 0, 19px 16px;
+}
 
 #gameMessage {
     position: absolute;
-
-    width: 100%;
-
-    top: 42%;
-    left: 0;
-
+    z-index: 2;
+    inset: 46% 0 auto;
     margin: 0;
-
-    color: #39ff14;
-
-    letter-spacing: 4px;
-
-    font-weight: bold;
+    color: var(--mars-light);
+    letter-spacing: 3px;
+    font-size: 12px;
 }
-
 
 #target {
     display: none;
-
     position: absolute;
-
-    width: 40px;
-    height: 40px;
-
+    z-index: 3;
+    width: 34px;
+    height: 22px;
     padding: 0;
-
-    border: none;
-
+    border: 0;
     cursor: pointer;
-
-    background-color: #ff00ff;
-
-    box-shadow:
-        6px 6px #00ffff;
+    background: var(--mars-light);
+    clip-path: polygon(0 40%,25% 40%,25% 15%,65% 15%,65% 32%,100% 50%,65% 68%,65% 85%,25% 85%,25% 60%,0 60%);
+    box-shadow: 4px 4px 0 var(--mars-dark);
 }
 
-
-#target:hover {
-    background-color: #39ff14;
-}
-
-
-.start-button {
-    margin-top: 30px;
-
-    padding:
-        15px 30px;
-
-    border: none;
-
-    color: black;
-
-    background-color: #39ff14;
-
-    font-family:
-        "Courier New",
-        monospace;
-
-    font-weight: bold;
-
-    font-size: 16px;
-
-    cursor: pointer;
-
-    box-shadow:
-        6px 6px #176613;
-}
-
-
-.start-button:hover {
-    background-color: #00ffff;
-
-    transform:
-        translate(-3px, -3px);
-
-    box-shadow:
-        9px 9px #ff00ff;
-}
-
+.start-button { margin-top: 22px; }
 
 .back-top {
     display: block;
-
-    margin-top: 35px;
-
-    color: #ff66ff;
-
+    margin-top: 26px;
+    color: var(--muted);
     text-decoration: none;
-
-    font-weight: bold;
+    font-size: 11px;
+    letter-spacing: 2px;
 }
 
+.back-top:hover { color: var(--mars-light); }
 
 /* =========================
    ANIMATIONS
 ========================= */
-
 @keyframes loadingBar {
-
-    0% {
-        width: 0%;
-    }
-
-    25% {
-        width: 20%;
-    }
-
-    50% {
-        width: 55%;
-    }
-
-    75% {
-        width: 80%;
-    }
-
-    100% {
-        width: 100%;
-    }
-
+    0%{width:0} 25%{width:22%} 50%{width:48%} 75%{width:76%} 100%{width:100%}
 }
-
-
-@keyframes loadingGlow {
-
-    from {
-        text-shadow:
-            6px 6px #ff00ff;
-    }
-
-    to {
-        text-shadow:
-            6px 6px #ff00ff,
-            0 0 20px #00ffff;
-    }
-
+@keyframes blink { 50% { opacity:.25; } }
+@keyframes twinkle { 50% { opacity:.2; transform:scale(.65); } }
+@keyframes flyAcross {
+    from { transform: translateX(0); }
+    to { transform: translateX(calc(100vw + 150px)); }
 }
-
-
-@keyframes loadingBlink {
-
-    0%,
-    50% {
-        opacity: 1;
-    }
-
-    51%,
-    100% {
-        opacity: 0.3;
-    }
-
+@keyframes flyBack {
+    from { transform: scaleX(-1) scale(.75) translateX(0); }
+    to { transform: scaleX(-1) scale(.75) translateX(calc(100vw + 180px)); }
 }
-
-
-@keyframes pixelMove {
-
-    from {
-        transform:
-            translate(0,0)
-            rotate(0deg);
-    }
-
-    to {
-        transform:
-            translate(60px,80px)
-            rotate(360deg);
-    }
-
-}
-
-
-@keyframes titleGlow {
-
-    from {
-        text-shadow:
-            7px 7px #ff00ff;
-    }
-
-    to {
-        text-shadow:
-            7px 7px #ff00ff,
-            0 0 25px #00ffff;
-    }
-
-}
-
-
 @keyframes popupAppear {
-
-    from {
-        opacity: 0;
-
-        transform:
-            scale(0.8);
-    }
-
-    to {
-        opacity: 1;
-
-        transform:
-            scale(1);
-    }
-
+    from { opacity:0; transform:translateY(12px) scale(.98); }
+    to { opacity:1; transform:none; }
 }
-
-
-@keyframes mainAppear {
-
-    from {
-        opacity: 0;
-
-        transform:
-            scale(0.9);
-    }
-
-    to {
-        opacity: 1;
-
-        transform:
-            scale(1);
-    }
-
-}
-
 
 /* =========================
    MOBILE
 ========================= */
-
 @media (max-width: 700px) {
-
-    .main-box {
-        padding:
-            45px 25px;
+    .top-nav {
+        top: 14px;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 8px 22px;
     }
 
-
-    .main-box h1 {
-        font-size: 55px;
-
-        letter-spacing: 8px;
+    .top-nav button {
+        min-width: 92px;
+        font-size: 10px;
+        padding: 8px 10px;
     }
 
-
-    .subtitle {
-        letter-spacing: 4px;
+    .top-nav button:nth-child(1),
+    .top-nav button:nth-child(2),
+    .top-nav button:nth-child(3),
+    .top-nav button:nth-child(4) {
+        transform: none;
     }
 
-
-    .menu {
-        grid-template-columns:
-            1fr;
-    }
-
-
-    .skills-grid {
-        grid-template-columns:
-            1fr;
-    }
-
-
-    .game-area {
-        height: 280px;
-    }
-
-
-    .game-stats {
-        justify-content: center;
-    }
-
-
-    .popup-box {
-        padding:
-            55px 25px 30px;
-    }
-
+    .home { padding-top: 150px; }
+    .hero h1 { letter-spacing: 6px; }
+    .subtitle { letter-spacing: 5px; }
+    .planet { width: 68px; height: 68px; right: 4%; top: 26%; }
+    .skills-grid { grid-template-columns: 1fr; }
+    .popup-box { padding: 42px 22px 26px; }
+    .game-container { padding: 22px 16px; }
+    .game-area { height: 280px; }
 }
-
 </style>
-
 </head>
-
-
 <body>
 
-
 <!-- LOADING SCREEN -->
-
-<div id="loadingScreen"
-     class="loading-screen">
-
+<div id="loadingScreen" class="loading-screen">
     <div class="loading-box">
-
         <h1>:...:</h1>
-
-        <p>
-            LOADING PORTFOLIO...
-        </p>
-
-        <div class="loading-bar">
-
-            <div class="loading-progress"></div>
-
-        </div>
-
-        <span>
-            PLEASE WAIT
-        </span>
-
+        <p>ENTERING MARS ORBIT...</p>
+        <div class="loading-bar"><div class="loading-progress"></div></div>
+        <span>INITIALIZING PORTFOLIO</span>
     </div>
-
 </div>
 
+<!-- BACKGROUND DECOR -->
+<div class="space-decor" aria-hidden="true">
+    <span class="star big"></span><span class="star"></span><span class="star"></span>
+    <span class="star big"></span><span class="star"></span><span class="star"></span>
+    <span class="star"></span><span class="star big"></span><span class="star"></span>
+    <span class="star"></span><span class="star big"></span><span class="star"></span>
+    <span class="star"></span><span class="star"></span><span class="star big"></span>
+    <div class="pixel-ship ship-one"></div>
+    <div class="pixel-ship ship-two"></div>
+    <div class="planet"></div>
+</div>
 
 <!-- MAIN SCREEN -->
+<section id="home" class="home">
+    <nav class="top-nav" aria-label="Portfolio sections">
+        <button type="button" data-popup="aboutPopup">About</button>
+        <button type="button" data-popup="projectsPopup">Projects</button>
+        <button type="button" data-popup="skillsPopup">Skills</button>
+        <button type="button" data-popup="contactPopup">Contact</button>
+    </nav>
 
-<section id="home"
-         class="home">
-
-
-    <div class="pixel pixel1"></div>
-    <div class="pixel pixel2"></div>
-    <div class="pixel pixel3"></div>
-    <div class="pixel pixel4"></div>
-    <div class="pixel pixel5"></div>
-    <div class="pixel pixel6"></div>
-
-
-    <div class="main-box">
-
-        <h1>
-            :...:
-        </h1>
-
-        <p class="subtitle">
-            MY PORTFOLIO
+    <main class="hero">
+        <div class="hero-kicker">SECTOR 04 // MARS</div>
+        <h1>:...:</h1>
+        <p class="subtitle">MY PORTFOLIO</p>
+        <p class="hero-copy">
+            Information Systems student portfolio built with a simple
+            8-bit space interface, Mars colors, and small interactive elements.
         </p>
+        <a href="#game" class="game-link">PLAY MINI GAME ↓</a>
+    </main>
 
-
-        <div class="menu">
-
-            <button
-                type="button"
-                data-popup="aboutPopup">
-
-                About
-
-            </button>
-
-
-            <button
-                type="button"
-                data-popup="projectsPopup">
-
-                Projects
-
-            </button>
-
-
-            <button
-                type="button"
-                data-popup="skillsPopup">
-
-                Skills
-
-            </button>
-
-
-            <button
-                type="button"
-                data-popup="contactPopup">
-
-                Contact
-
-            </button>
-
-        </div>
-
-
-        <a href="#game"
-           class="game-link">
-
-            MINI GAME ↓
-
-        </a>
-
-    </div>
-
+    <div class="mars-ground" aria-hidden="true"></div>
 </section>
-
 
 <!-- MINI GAME -->
-
-<section id="game"
-         class="game-section">
-
-
+<section id="game" class="game-section">
     <div class="game-container">
-
-        <h2>
-            MINI GAME
-        </h2>
-
-
-        <p class="game-description">
-
-            Click the square as many times
-            as you can before time runs out.
-
-        </p>
-
+        <h2>SPACE MINI GAME</h2>
+        <p class="game-description">Catch the tiny ship as many times as you can before the timer reaches zero.</p>
 
         <div class="game-stats">
-
-            <div>
-                SCORE:
-                <span id="score">
-                    0
-                </span>
-            </div>
-
-
-            <div>
-                HIGH SCORE:
-                <span id="highScore">
-                    0
-                </span>
-            </div>
-
-
-            <div>
-                TIME:
-                <span id="time">
-                    15
-                </span>
-            </div>
-
+            <div>SCORE: <span id="score">0</span></div>
+            <div>HIGH SCORE: <span id="highScore">0</span></div>
+            <div>TIME: <span id="time">15</span></div>
         </div>
 
-
-        <div id="gameArea"
-             class="game-area">
-
-
-            <p id="gameMessage">
-                PRESS START
-            </p>
-
-
-            <button
-                type="button"
-                id="target">
-            </button>
-
+        <div id="gameArea" class="game-area">
+            <p id="gameMessage">PRESS START</p>
+            <button type="button" id="target" aria-label="Catch the spaceship"></button>
         </div>
 
-
-        <button
-            type="button"
-            id="startGame"
-            class="start-button">
-
-            START GAME
-
-        </button>
-
-
-        <a href="#home"
-           class="back-top">
-
-            ↑ BACK TO TOP
-
-        </a>
-
+        <button type="button" id="startGame" class="start-button">START GAME</button>
+        <a href="#home" class="back-top">↑ BACK TO TOP</a>
     </div>
-
 </section>
 
-
 <!-- ABOUT POPUP -->
-
-<div id="aboutPopup"
-     class="popup">
-
-
+<div id="aboutPopup" class="popup">
     <div class="popup-box">
-
-
-        <button
-            type="button"
-            class="close-button">
-
-            X
-
-        </button>
-
-
-        <h2>
-            ABOUT ME
-        </h2>
-
-
+        <button type="button" class="close-button">X</button>
+        <h2>ABOUT ME</h2>
         <p>
-            Hey, I'm an Information Systems student.
-            This portfolio is mostly for showing my skills
-            and some of the stuff I've worked on.
+            Hey, I'm an Information Systems student. This portfolio is mostly
+            for showing my skills and some of the stuff I've worked on.
         </p>
-
-
         <p>
-            I don't really have any projects to show here for now,
-            but I'm probably gonna dig through some of my old school
-            works soon and add a few of them here.
+            I don't really have any projects to show here for now, but I'm
+            probably gonna dig through some of my old school works soon and add a few of them here.
         </p>
-
-
         <p>
-            Also, this whole portfolio wasn't entirely made from
-            scratch by me. I looked up some stuff online and used
-            a bit of AI for help, but most of the ideas, design
-            choices, and how I wanted everything to look came from me.
+            Also, this whole portfolio wasn't entirely made from scratch by me.
+            I looked up some stuff online and used a bit of AI for help, but most
+            of the ideas, design choices, and how I wanted everything to look came from me.
         </p>
-
     </div>
-
 </div>
-
 
 <!-- PROJECTS POPUP -->
-
-<div id="projectsPopup"
-     class="popup">
-
-
+<div id="projectsPopup" class="popup">
     <div class="popup-box">
-
-
-        <button
-            type="button"
-            class="close-button">
-
-            X
-
-        </button>
-
-
-        <h2>
-            PROJECTS
-        </h2>
-
-
+        <button type="button" class="close-button">X</button>
+        <h2>PROJECTS</h2>
         <div class="empty-projects">
-
-            <p>
-                No projects here for now.
-            </p>
-
-
-            <p>
-                I'm gonna look through some of my past school
-                works soon and add a few of them here.
-            </p>
-
+            <p>No projects here for now.</p>
+            <p>I'm gonna look through some of my past school works soon and add a few of them here.</p>
         </div>
-
     </div>
-
 </div>
-
 
 <!-- SKILLS POPUP -->
-
-<div id="skillsPopup"
-     class="popup">
-
-
+<div id="skillsPopup" class="popup">
     <div class="popup-box">
-
-
-        <button
-            type="button"
-            class="close-button">
-
-            X
-
-        </button>
-
-
-        <h2>
-            SKILLS
-        </h2>
-
-
+        <button type="button" class="close-button">X</button>
+        <h2>SKILLS</h2>
         <div class="skills-grid">
-
-            <div class="skill">
-                HTML
-            </div>
-
-            <div class="skill">
-                CSS
-            </div>
-
-            <div class="skill">
-                JavaScript
-            </div>
-
-            <div class="skill">
-                SQL
-            </div>
-
-            <div class="skill">
-                Database Management
-            </div>
-
-            <div class="skill">
-                Web Development
-            </div>
-
+            <div class="skill">HTML</div>
+            <div class="skill">CSS</div>
+            <div class="skill">JavaScript</div>
+            <div class="skill">SQL</div>
+            <div class="skill">Database Management</div>
+            <div class="skill">Web Development</div>
         </div>
-
     </div>
-
 </div>
-
 
 <!-- CONTACT POPUP -->
-
-<div id="contactPopup"
-     class="popup">
-
-
+<div id="contactPopup" class="popup">
     <div class="popup-box">
-
-
-        <button
-            type="button"
-            class="close-button">
-
-            X
-
-        </button>
-
-
-        <h2>
-            CONTACT ME
-        </h2>
-
+        <button type="button" class="close-button">X</button>
+        <h2>CONTACT ME</h2>
 
         <div class="social-links">
-
-
-            <p>
-                Instagram:
-
-                <a
-                    href="https://www.instagram.com/sweee.swe"
-                    target="_blank">
-
-                    @sweee.swe
-
-                </a>
-            </p>
-
-
-            <p>
-                Facebook:
-
-                <a
-                    href="https://www.facebook.com/sevetse1250/"
-                    target="_blank">0
-
-                    Swe Esteves
-
-                </a>
-            </p>
-
-
+            <p>Instagram: <a href="https://www.instagram.com/sweee.swe" target="_blank">@sweee.swe</a></p>
+            <p>Facebook: <a href="https://www.facebook.com/sevetse1250/" target="_blank">Swe Esteves</a></p>
         </div>
 
-
         <form id="contactForm">
-
-
-            <input
-                type="text"
-                placeholder="Your Name"
-                required
-            >
-
-
-            <input
-                type="email"
-                placeholder="Your Email"
-                required
-            >
-
-
-            <textarea
-                placeholder="Your Message"
-                required
-            ></textarea>
-
-
-            <button
-                type="submit"
-                class="send-button">
-
-                Send Message
-
-            </button>
-
+            <input type="text" placeholder="Your Name" required>
+            <input type="email" placeholder="Your Email" required>
+            <textarea placeholder="Your Message" required></textarea>
+            <button type="submit" class="send-button">SEND MESSAGE</button>
         </form>
-
     </div>
-
 </div>
 
-
 <script>
-
 /* LOADING SCREEN */
-
-const loadingScreen =
-    document.getElementById("loadingScreen");
-
-
-window.addEventListener(
-    "load",
-
-    function() {
-
-        setTimeout(
-            function() {
-
-                loadingScreen.classList.add("hide");
-
-            },
-
-            2600
-        );
-
-    }
-);
-
+const loadingScreen = document.getElementById("loadingScreen");
+window.addEventListener("load", function () {
+    setTimeout(function () {
+        loadingScreen.classList.add("hide");
+    }, 2100);
+});
 
 /* POPUPS */
+const popupButtons = document.querySelectorAll("[data-popup]");
+const popups = document.querySelectorAll(".popup");
+const closeButtons = document.querySelectorAll(".close-button");
 
-const popupButtons =
-    document.querySelectorAll("[data-popup]");
+popupButtons.forEach(function (button) {
+    button.addEventListener("click", function () {
+        const popupID = button.getAttribute("data-popup");
+        document.getElementById(popupID).classList.add("open");
+    });
+});
 
+closeButtons.forEach(function (button) {
+    button.addEventListener("click", function () {
+        button.closest(".popup").classList.remove("open");
+    });
+});
 
-const popups =
-    document.querySelectorAll(".popup");
+popups.forEach(function (popup) {
+    popup.addEventListener("click", function (event) {
+        if (event.target === popup) popup.classList.remove("open");
+    });
+});
 
-
-const closeButtons =
-    document.querySelectorAll(".close-button");
-
-
-popupButtons.forEach(
-    function(button) {
-
-        button.addEventListener(
-            "click",
-
-            function() {
-
-                const popupID =
-                    button.getAttribute("data-popup");
-
-
-                const popup =
-                    document.getElementById(popupID);
-
-
-                popup.classList.add("open");
-
-            }
-        );
-
+document.addEventListener("keydown", function (event) {
+    if (event.key === "Escape") {
+        popups.forEach(function (popup) { popup.classList.remove("open"); });
     }
-);
-
-
-closeButtons.forEach(
-    function(button) {
-
-        button.addEventListener(
-            "click",
-
-            function() {
-
-                const popup =
-                    button.closest(".popup");
-
-
-                popup.classList.remove("open");
-
-            }
-        );
-
-    }
-);
-
-
-/* CLOSE WHEN CLICKING OUTSIDE */
-
-popups.forEach(
-    function(popup) {
-
-        popup.addEventListener(
-            "click",
-
-            function(event) {
-
-                if (event.target === popup) {
-
-                    popup.classList.remove("open");
-
-                }
-
-            }
-        );
-
-    }
-);
-
-
-/* CLOSE WITH ESC */
-
-document.addEventListener(
-    "keydown",
-
-    function(event) {
-
-        if (event.key === "Escape") {
-
-            popups.forEach(
-                function(popup) {
-
-                    popup.classList.remove("open");
-
-                }
-            );
-
-        }
-
-    }
-);
-
+});
 
 /* CONTACT FORM */
-
-const contactForm =
-    document.getElementById("contactForm");
-
-
-contactForm.addEventListener(
-    "submit",
-
-    function(event) {
-
-        event.preventDefault();
-
-        alert("Message form submitted!");
-
-    }
-);
-
+const contactForm = document.getElementById("contactForm");
+contactForm.addEventListener("submit", function (event) {
+    event.preventDefault();
+    alert("Message form submitted!");
+});
 
 /* MINI GAME */
-
-const startGameButton =
-    document.getElementById("startGame");
-
-
-const target =
-    document.getElementById("target");
-
-
-const gameArea =
-    document.getElementById("gameArea");
-
-
-const scoreDisplay =
-    document.getElementById("score");
-
-
-const highScoreDisplay =
-    document.getElementById("highScore");
-
-
-const timeDisplay =
-    document.getElementById("time");
-
-
-const gameMessage =
-    document.getElementById("gameMessage");
-
+const startGameButton = document.getElementById("startGame");
+const target = document.getElementById("target");
+const gameArea = document.getElementById("gameArea");
+const scoreDisplay = document.getElementById("score");
+const highScoreDisplay = document.getElementById("highScore");
+const timeDisplay = document.getElementById("time");
+const gameMessage = document.getElementById("gameMessage");
 
 let score = 0;
 let timeLeft = 15;
 let gameRunning = false;
 let gameTimer;
 
-
-/* LOAD HIGH SCORE */
-
-let highScore =
-    Number(
-        localStorage.getItem("jceHighScore")
-    ) || 0;
-
-
-highScoreDisplay.textContent =
-    highScore;
-
-
-/* MOVE TARGET */
+let highScore = Number(localStorage.getItem("jceHighScore")) || 0;
+highScoreDisplay.textContent = highScore;
 
 function moveTarget() {
-
-    const targetWidth =
-        target.offsetWidth;
-
-
-    const targetHeight =
-        target.offsetHeight;
-
-
-    const maxX =
-        gameArea.clientWidth -
-        targetWidth - 8;
-
-
-    const maxY =
-        gameArea.clientHeight -
-        targetHeight - 8;
-
-
-    const randomX =
-        Math.floor(
-            Math.random() * maxX
-        );
-
-
-    const randomY =
-        Math.floor(
-            Math.random() * maxY
-        );
-
-
-    target.style.left =
-        randomX + "px";
-
-
-    target.style.top =
-        randomY + "px";
+    const maxX = gameArea.clientWidth - target.offsetWidth - 8;
+    const maxY = gameArea.clientHeight - target.offsetHeight - 8;
+    target.style.left = Math.floor(Math.random() * Math.max(maxX, 1)) + "px";
+    target.style.top = Math.floor(Math.random() * Math.max(maxY, 1)) + "px";
 }
 
-
-/* START GAME */
-
 function startGame() {
-
-    if (gameRunning) {
-        return;
-    }
-
+    if (gameRunning) return;
 
     score = 0;
     timeLeft = 15;
     gameRunning = true;
-
-
-    scoreDisplay.textContent =
-        score;
-
-
-    timeDisplay.textContent =
-        timeLeft;
-
-
-    gameMessage.style.display =
-        "none";
-
-
-    target.style.display =
-        "block";
-
-
-    startGameButton.textContent =
-        "PLAYING...";
-
-
+    scoreDisplay.textContent = score;
+    timeDisplay.textContent = timeLeft;
+    gameMessage.style.display = "none";
+    target.style.display = "block";
+    startGameButton.textContent = "PLAYING...";
     moveTarget();
 
-
-    gameTimer =
-        setInterval(
-
-            function() {
-
-                timeLeft--;
-
-
-                timeDisplay.textContent =
-                    timeLeft;
-
-
-                if (timeLeft <= 0) {
-
-                    endGame();
-
-                }
-
-            },
-
-            1000
-        );
+    gameTimer = setInterval(function () {
+        timeLeft--;
+        timeDisplay.textContent = timeLeft;
+        if (timeLeft <= 0) endGame();
+    }, 1000);
 }
-
-
-/* END GAME */
 
 function endGame() {
-
     clearInterval(gameTimer);
-
-
     gameRunning = false;
-
-
-    target.style.display =
-        "none";
-
+    target.style.display = "none";
 
     if (score > highScore) {
-
-        highScore =
-            score;
-
-
-        localStorage.setItem(
-            "jceHighScore",
-            highScore
-        );
-
-
-        highScoreDisplay.textContent =
-            highScore;
-
-
-        gameMessage.textContent =
-            "NEW HIGH SCORE: " + score;
-
+        highScore = score;
+        localStorage.setItem("jceHighScore", highScore);
+        highScoreDisplay.textContent = highScore;
+        gameMessage.textContent = "NEW HIGH SCORE: " + score;
+    } else {
+        gameMessage.textContent = "FINAL SCORE: " + score;
     }
 
-    else {
-
-        gameMessage.textContent =
-            "FINAL SCORE: " + score;
-
-    }
-
-
-    gameMessage.style.display =
-        "block";
-
-
-    startGameButton.textContent =
-        "PLAY AGAIN";
+    gameMessage.style.display = "block";
+    startGameButton.textContent = "PLAY AGAIN";
 }
 
+target.addEventListener("click", function () {
+    if (!gameRunning) return;
+    score++;
+    scoreDisplay.textContent = score;
+    moveTarget();
+});
 
-/* CLICK TARGET */
-
-target.addEventListener(
-    "click",
-
-    function() {
-
-        if (!gameRunning) {
-            return;
-        }
-
-
-        score++;
-
-
-        scoreDisplay.textContent =
-            score;
-
-
-        moveTarget();
-
-    }
-);
-
-
-/* START BUTTON */
-
-startGameButton.addEventListener(
-    "click",
-    startGame
-);
-
+startGameButton.addEventListener("click", startGame);
 </script>
-
-
 </body>
-
 </html>

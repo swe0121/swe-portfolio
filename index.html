@@ -3,24 +3,26 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>:...: SPACE PORTFOLIO</title>
+<title>:...: PORTFOLIO</title>
+
 <style>
-/* =========================
-   MARS 8-BIT SPACE THEME
-========================= */
 * { box-sizing: border-box; }
-html { scroll-behavior: smooth; }
 
 :root {
     --black: #050403;
     --panel: #0d0907;
-    --mars: #b64222;
-    --mars-light: #ef6b3a;
-    --mars-dark: #612414;
+    --accent: #b64222;
+    --light: #ef6b3a;
+    --dark: #612414;
     --sand: #d69062;
-    --dust: #8c3d27;
     --white: #f4e7df;
     --muted: #ad8c7d;
+}
+
+html {
+    scroll-behavior: smooth;
+    scrollbar-width: thin;
+    scrollbar-color: var(--accent) #080403;
 }
 
 body {
@@ -29,31 +31,30 @@ body {
     overflow-x: hidden;
     color: var(--white);
     background:
-        radial-gradient(circle at 50% 115%, rgba(182,66,34,.35) 0 20%, transparent 42%),
+        radial-gradient(circle at 50% 115%, rgba(182, 66, 34, .35) 0 20%, transparent 42%),
         linear-gradient(#030201, #090503 55%, #120704);
     font-family: "Courier New", monospace;
     image-rendering: pixelated;
 }
 
-body::before {
-    content: "";
-    position: fixed;
-    inset: 0;
-    pointer-events: none;
-    opacity: .18;
-    background-image:
-        linear-gradient(rgba(239,107,58,.18) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(239,107,58,.18) 1px, transparent 1px);
-    background-size: 32px 32px;
-    mask-image: linear-gradient(to bottom, #000, transparent 75%);
+/* Scrollbar */
+::-webkit-scrollbar { width: 10px; height: 10px; }
+::-webkit-scrollbar-track { background: #080403; }
+::-webkit-scrollbar-thumb {
+    background: var(--dark);
+    border: 2px solid #080403;
 }
+::-webkit-scrollbar-thumb:hover { background: var(--accent); }
+::-webkit-scrollbar-corner { background: #080403; }
 
-button, input, textarea { font: inherit; }
-button, a { -webkit-tap-highlight-color: transparent; }
+button,
+input,
+textarea { font: inherit; }
 
-/* =========================
-   LOADING SCREEN
-========================= */
+button,
+a { -webkit-tap-highlight-color: transparent; }
+
+/* Loading */
 .loading-screen {
     position: fixed;
     inset: 0;
@@ -64,23 +65,26 @@ button, a { -webkit-tap-highlight-color: transparent; }
     transition: opacity .45s ease, visibility .45s ease;
 }
 
-.loading-screen.hide { opacity: 0; visibility: hidden; }
+.loading-screen.hide {
+    opacity: 0;
+    visibility: hidden;
+}
 
 .loading-box {
     width: min(430px, 86vw);
     padding: 34px 28px;
     text-align: center;
     background: var(--panel);
-    border: 3px solid var(--mars-light);
-    box-shadow: 8px 8px 0 var(--mars-dark);
+    border: 3px solid var(--light);
+    box-shadow: 8px 8px 0 var(--dark);
 }
 
 .loading-box h1 {
     margin: 0;
-    color: var(--mars-light);
+    color: var(--light);
     font-size: clamp(38px, 10vw, 62px);
     letter-spacing: 9px;
-    text-shadow: 4px 4px 0 var(--mars-dark);
+    text-shadow: 4px 4px 0 var(--dark);
 }
 
 .loading-box p {
@@ -103,71 +107,56 @@ button, a { -webkit-tap-highlight-color: transparent; }
     height: 16px;
     margin-top: 22px;
     padding: 3px;
-    border: 2px solid var(--mars-light);
+    border: 2px solid var(--light);
     background: #020101;
 }
 
 .loading-progress {
     width: 0;
     height: 100%;
-    background: var(--mars);
+    background: var(--accent);
     animation: loadingBar 2s steps(8) forwards;
 }
 
-/* =========================
-   PIXEL SPACE BACKGROUND
-========================= */
+/* Background */
 .space-decor {
     position: fixed;
     inset: 0;
+    z-index: 0;
     overflow: hidden;
     pointer-events: none;
-    z-index: 0;
 }
 
-.star {
+.space-decor::before,
+.space-decor::after {
+    content: "";
     position: absolute;
-    width: 3px;
-    height: 3px;
-    background: #fff3e9;
-    box-shadow: 0 0 0 1px rgba(255,255,255,.08);
+    inset: 0;
+    background-image: radial-gradient(circle, #fff3e9 1px, transparent 1.5px);
+    background-size: 74px 74px;
+    opacity: .65;
     animation: twinkle 2.5s steps(2) infinite;
 }
 
-.star.big {
-    width: 5px;
-    height: 5px;
-    background: var(--mars-light);
+.space-decor::after {
+    background-image: radial-gradient(circle, var(--light) 1.5px, transparent 2px);
+    background-size: 119px 119px;
+    background-position: 35px 52px;
+    opacity: .5;
+    animation-delay: 1.2s;
 }
 
-.star:nth-child(1){left:5%;top:12%;animation-delay:.2s}
-.star:nth-child(2){left:14%;top:38%;animation-delay:1.1s}
-.star:nth-child(3){left:23%;top:18%;animation-delay:.7s}
-.star:nth-child(4){left:31%;top:62%;animation-delay:1.6s}
-.star:nth-child(5){left:43%;top:10%;animation-delay:.5s}
-.star:nth-child(6){left:51%;top:46%;animation-delay:1.4s}
-.star:nth-child(7){left:62%;top:25%;animation-delay:.9s}
-.star:nth-child(8){left:70%;top:74%;animation-delay:.3s}
-.star:nth-child(9){left:81%;top:15%;animation-delay:1.8s}
-.star:nth-child(10){left:91%;top:52%;animation-delay:.6s}
-.star:nth-child(11){left:8%;top:82%;animation-delay:1.2s}
-.star:nth-child(12){left:95%;top:88%;animation-delay:.1s}
-.star:nth-child(13){left:37%;top:86%;animation-delay:1.9s}
-.star:nth-child(14){left:57%;top:91%;animation-delay:.8s}
-.star:nth-child(15){left:76%;top:42%;animation-delay:1.5s}
-
-.pixel-ship {
+.ship {
     position: absolute;
     width: 42px;
     height: 18px;
-    background: var(--mars-light);
+    background: var(--light);
     box-shadow:
         8px -6px 0 var(--sand),
         16px -6px 0 var(--sand),
-        34px 4px 0 var(--mars-dark),
-        -8px 4px 0 var(--mars-dark),
-        8px 18px 0 -5px var(--mars);
-    clip-path: polygon(0 40%,20% 40%,20% 10%,65% 10%,65% 30%,100% 45%,65% 60%,65% 90%,20% 90%,20% 60%,0 60%);
+        34px 4px 0 var(--dark),
+        -8px 4px 0 var(--dark);
+    clip-path: polygon(0 40%, 20% 40%, 20% 10%, 65% 10%, 65% 30%, 100% 45%, 65% 60%, 65% 90%, 20% 90%, 20% 60%, 0 60%);
     filter: drop-shadow(4px 4px 0 #1c0b06);
 }
 
@@ -180,49 +169,45 @@ button, a { -webkit-tap-highlight-color: transparent; }
 .ship-two {
     top: 68%;
     right: -80px;
-    transform: scaleX(-1) scale(.75);
     animation: flyBack 23s linear infinite 4s;
 }
 
 .planet {
     position: absolute;
-    right: 7%;
     top: 14%;
+    right: 7%;
     width: 95px;
-    height: 95px;
+    aspect-ratio: 1;
     border-radius: 50%;
     background:
-        linear-gradient(12deg, transparent 42%, rgba(92,30,15,.85) 43% 51%, transparent 52%),
-        linear-gradient(-16deg, transparent 58%, rgba(239,107,58,.35) 59% 64%, transparent 65%),
-        var(--mars);
-    box-shadow: inset -18px -10px 0 var(--mars-dark), 8px 8px 0 rgba(0,0,0,.32);
+        linear-gradient(12deg, transparent 42%, rgba(92, 30, 15, .85) 43% 51%, transparent 52%),
+        linear-gradient(-16deg, transparent 58%, rgba(239, 107, 58, .35) 59% 64%, transparent 65%),
+        var(--accent);
+    box-shadow: inset -18px -10px 0 var(--dark), 8px 8px 0 rgba(0, 0, 0, .32);
     opacity: .85;
 }
 
-/* =========================
-   TOP SCATTERED MENU
-========================= */
+/* Navigation */
 .top-nav {
     position: absolute;
     top: 18px;
     left: 50%;
-    width: min(950px, 92vw);
-    transform: translateX(-50%);
     z-index: 20;
+    width: min(950px, 92vw);
     display: grid;
     grid-template-columns: repeat(4, 1fr);
-    align-items: start;
     gap: 20px;
+    transform: translateX(-50%);
 }
 
 .top-nav button {
-    width: max-content;
     min-width: 105px;
+    width: max-content;
     justify-self: center;
     padding: 9px 13px;
     color: var(--sand);
-    background: rgba(8,4,3,.88);
-    border: 2px solid var(--mars-dark);
+    background: rgba(8, 4, 3, .88);
+    border: 2px solid var(--dark);
     box-shadow: 4px 4px 0 #1a0905;
     cursor: pointer;
     text-transform: uppercase;
@@ -238,14 +223,12 @@ button, a { -webkit-tap-highlight-color: transparent; }
 
 .top-nav button:hover {
     color: #0a0302;
-    background: var(--mars-light);
-    border-color: var(--mars-light);
+    background: var(--light);
+    border-color: var(--light);
     transform: translateY(-2px) !important;
 }
 
-/* =========================
-   HOME
-========================= */
+/* Home */
 .home {
     min-height: 100vh;
     position: relative;
@@ -256,10 +239,10 @@ button, a { -webkit-tap-highlight-color: transparent; }
 }
 
 .hero {
-    width: min(760px, 92vw);
-    text-align: center;
     position: relative;
     z-index: 5;
+    width: min(760px, 92vw);
+    text-align: center;
 }
 
 .hero-kicker {
@@ -271,11 +254,11 @@ button, a { -webkit-tap-highlight-color: transparent; }
 
 .hero h1 {
     margin: 0;
-    color: var(--mars-light);
+    color: var(--light);
     font-size: clamp(54px, 12vw, 110px);
     line-height: .85;
     letter-spacing: 10px;
-    text-shadow: 7px 7px 0 var(--mars-dark);
+    text-shadow: 7px 7px 0 var(--dark);
 }
 
 .subtitle {
@@ -293,39 +276,41 @@ button, a { -webkit-tap-highlight-color: transparent; }
     font-size: 13px;
 }
 
-.game-link {
-    display: inline-block;
-    margin-top: 36px;
-    padding: 11px 15px;
-    color: var(--mars-light);
+.game-link,
+.back-top {
+    color: var(--light);
     text-decoration: none;
-    border: 2px solid var(--mars-dark);
-    background: #080403;
-    box-shadow: 4px 4px 0 #1c0b06;
     font-size: 11px;
     letter-spacing: 2px;
 }
 
-.game-link:hover {
-    color: #080403;
-    background: var(--mars-light);
-    border-color: var(--mars-light);
+.game-link {
+    display: inline-block;
+    margin-top: 36px;
+    padding: 11px 15px;
+    background: #080403;
+    border: 2px solid var(--dark);
+    box-shadow: 4px 4px 0 #1c0b06;
 }
 
-.mars-ground {
+.game-link:hover {
+    color: #080403;
+    background: var(--light);
+    border-color: var(--light);
+}
+
+.ground {
     position: absolute;
     left: -8%;
     bottom: -55px;
     width: 116%;
     height: 140px;
-    background: var(--mars-dark);
-    clip-path: polygon(0 65%,8% 48%,15% 57%,27% 24%,38% 60%,48% 42%,58% 67%,70% 30%,79% 54%,88% 39%,100% 62%,100% 100%,0 100%);
+    background: var(--dark);
+    clip-path: polygon(0 65%, 8% 48%, 15% 57%, 27% 24%, 38% 60%, 48% 42%, 58% 67%, 70% 30%, 79% 54%, 88% 39%, 100% 62%, 100% 100%, 0 100%);
     opacity: .7;
 }
 
-/* =========================
-   POPUPS
-========================= */
+/* Popups */
 .popup {
     display: none;
     position: fixed;
@@ -333,26 +318,28 @@ button, a { -webkit-tap-highlight-color: transparent; }
     z-index: 1000;
     place-items: center;
     padding: 24px;
-    background: rgba(0,0,0,.82);
+    background: rgba(0, 0, 0, .82);
 }
 
 .popup.open { display: grid; }
 
 .popup-box {
+    position: relative;
     width: min(620px, 94vw);
     max-height: 82vh;
     overflow-y: auto;
-    position: relative;
     padding: 38px 34px 32px;
     background: #0b0705;
-    border: 2px solid var(--mars);
+    border: 2px solid var(--accent);
     box-shadow: 8px 8px 0 #2a0f08;
+    scrollbar-width: thin;
+    scrollbar-color: var(--accent) #0b0705;
     animation: popupAppear .18s steps(4);
 }
 
 .popup-box h2 {
     margin: 0 0 24px;
-    color: var(--mars-light);
+    color: var(--light);
     font-size: 22px;
     letter-spacing: 5px;
 }
@@ -370,24 +357,27 @@ button, a { -webkit-tap-highlight-color: transparent; }
     width: 34px;
     height: 34px;
     color: var(--white);
-    background: var(--mars-dark);
+    background: var(--dark);
     border: 0;
-    cursor: pointer;
     box-shadow: 3px 3px 0 #1a0704;
+    cursor: pointer;
 }
 
-.close-button:hover { background: var(--mars); }
+.close-button:hover { background: var(--accent); }
 
 .empty-projects,
-.social-links {
-    padding: 20px;
+.social-links,
+.skill {
     background: #080403;
-    border: 1px solid var(--mars-dark);
+    border: 1px solid var(--dark);
 }
+
+.empty-projects,
+.social-links { padding: 20px; }
 
 .skills-grid {
     display: grid;
-    grid-template-columns: repeat(2, minmax(0,1fr));
+    grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 12px;
 }
 
@@ -395,40 +385,46 @@ button, a { -webkit-tap-highlight-color: transparent; }
     padding: 14px 10px;
     text-align: center;
     color: var(--sand);
-    background: #080403;
-    border: 1px solid var(--mars-dark);
     font-size: 12px;
 }
 
 .skill:hover {
     color: #090302;
-    background: var(--mars-light);
+    background: var(--light);
 }
 
 .social-links { margin-bottom: 20px; }
 .social-links p { margin: 9px 0; }
-.social-links a { color: var(--mars-light); text-decoration: none; }
+.social-links a { color: var(--light); text-decoration: none; }
 
 form { width: 100%; }
-input, textarea {
+
+input,
+textarea {
     width: 100%;
     margin-bottom: 12px;
     padding: 12px;
     color: var(--white);
     background: #050302;
-    border: 1px solid var(--mars-dark);
+    border: 1px solid var(--dark);
     outline: 0;
 }
-input:focus, textarea:focus { border-color: var(--mars-light); }
-textarea { height: 110px; resize: none; }
+
+input:focus,
+textarea:focus { border-color: var(--light); }
+
+textarea {
+    height: 110px;
+    resize: none;
+}
 
 .send-button,
 .start-button {
     padding: 11px 16px;
     color: #080302;
-    background: var(--mars-light);
+    background: var(--light);
     border: 0;
-    box-shadow: 4px 4px 0 var(--mars-dark);
+    box-shadow: 4px 4px 0 var(--dark);
     font-weight: bold;
     cursor: pointer;
 }
@@ -436,9 +432,7 @@ textarea { height: 110px; resize: none; }
 .send-button:hover,
 .start-button:hover { background: var(--sand); }
 
-/* =========================
-   MINI GAME
-========================= */
+/* Mini game */
 .game-section {
     min-height: 100vh;
     position: relative;
@@ -454,13 +448,13 @@ textarea { height: 110px; resize: none; }
     padding: 30px;
     text-align: center;
     background: #090503;
-    border: 2px solid var(--mars-dark);
+    border: 2px solid var(--dark);
     box-shadow: 8px 8px 0 #1b0905;
 }
 
 .game-container h2 {
     margin: 0;
-    color: var(--mars-light);
+    color: var(--light);
     letter-spacing: 5px;
 }
 
@@ -480,17 +474,20 @@ textarea { height: 110px; resize: none; }
     font-size: 11px;
 }
 
-.game-stats span { color: var(--mars-light); font-size: 18px; }
+.game-stats span {
+    color: var(--light);
+    font-size: 18px;
+}
 
 .game-area {
+    position: relative;
     width: 100%;
     height: 330px;
-    position: relative;
     overflow: hidden;
     background:
-        radial-gradient(circle at 40% 80%, rgba(182,66,34,.2), transparent 20%),
+        radial-gradient(circle at 40% 80%, rgba(182, 66, 34, .2), transparent 20%),
         #020101;
-    border: 2px solid var(--mars-dark);
+    border: 2px solid var(--dark);
 }
 
 .game-area::before {
@@ -500,7 +497,7 @@ textarea { height: 110px; resize: none; }
     opacity: .32;
     background-image:
         radial-gradient(circle, #fff 1px, transparent 1.5px),
-        radial-gradient(circle, var(--mars-light) 1px, transparent 1.5px);
+        radial-gradient(circle, var(--light) 1px, transparent 1.5px);
     background-size: 38px 38px, 57px 57px;
     background-position: 0 0, 19px 16px;
 }
@@ -510,7 +507,7 @@ textarea { height: 110px; resize: none; }
     z-index: 2;
     inset: 46% 0 auto;
     margin: 0;
-    color: var(--mars-light);
+    color: var(--light);
     letter-spacing: 3px;
     font-size: 12px;
 }
@@ -524,9 +521,9 @@ textarea { height: 110px; resize: none; }
     padding: 0;
     border: 0;
     cursor: pointer;
-    background: var(--mars-light);
-    clip-path: polygon(0 40%,25% 40%,25% 15%,65% 15%,65% 32%,100% 50%,65% 68%,65% 85%,25% 85%,25% 60%,0 60%);
-    box-shadow: 4px 4px 0 var(--mars-dark);
+    background: var(--light);
+    clip-path: polygon(0 40%, 25% 40%, 25% 15%, 65% 15%, 65% 32%, 100% 50%, 65% 68%, 65% 85%, 25% 85%, 25% 60%, 0 60%);
+    box-shadow: 4px 4px 0 var(--dark);
 }
 
 .start-button { margin-top: 22px; }
@@ -535,37 +532,36 @@ textarea { height: 110px; resize: none; }
     display: block;
     margin-top: 26px;
     color: var(--muted);
-    text-decoration: none;
-    font-size: 11px;
-    letter-spacing: 2px;
 }
 
-.back-top:hover { color: var(--mars-light); }
+.back-top:hover { color: var(--light); }
 
-/* =========================
-   ANIMATIONS
-========================= */
 @keyframes loadingBar {
-    0%{width:0} 25%{width:22%} 50%{width:48%} 75%{width:76%} 100%{width:100%}
+    0% { width: 0; }
+    25% { width: 22%; }
+    50% { width: 48%; }
+    75% { width: 76%; }
+    100% { width: 100%; }
 }
-@keyframes blink { 50% { opacity:.25; } }
-@keyframes twinkle { 50% { opacity:.2; transform:scale(.65); } }
+
+@keyframes blink { 50% { opacity: .25; } }
+@keyframes twinkle { 50% { opacity: .2; } }
+
 @keyframes flyAcross {
     from { transform: translateX(0); }
     to { transform: translateX(calc(100vw + 150px)); }
 }
+
 @keyframes flyBack {
     from { transform: scaleX(-1) scale(.75) translateX(0); }
     to { transform: scaleX(-1) scale(.75) translateX(calc(100vw + 180px)); }
 }
+
 @keyframes popupAppear {
-    from { opacity:0; transform:translateY(12px) scale(.98); }
-    to { opacity:1; transform:none; }
+    from { opacity: 0; transform: translateY(12px) scale(.98); }
+    to { opacity: 1; transform: none; }
 }
 
-/* =========================
-   MOBILE
-========================= */
 @media (max-width: 700px) {
     .top-nav {
         top: 14px;
@@ -575,21 +571,15 @@ textarea { height: 110px; resize: none; }
 
     .top-nav button {
         min-width: 92px;
-        font-size: 10px;
         padding: 8px 10px;
-    }
-
-    .top-nav button:nth-child(1),
-    .top-nav button:nth-child(2),
-    .top-nav button:nth-child(3),
-    .top-nav button:nth-child(4) {
-        transform: none;
+        font-size: 10px;
+        transform: none !important;
     }
 
     .home { padding-top: 150px; }
     .hero h1 { letter-spacing: 6px; }
     .subtitle { letter-spacing: 5px; }
-    .planet { width: 68px; height: 68px; right: 4%; top: 26%; }
+    .planet { width: 68px; right: 4%; top: 26%; }
     .skills-grid { grid-template-columns: 1fr; }
     .popup-box { padding: 42px 22px 26px; }
     .game-container { padding: 22px 16px; }
@@ -597,31 +587,23 @@ textarea { height: 110px; resize: none; }
 }
 </style>
 </head>
-<body>
 
-<!-- LOADING SCREEN -->
+<body>
 <div id="loadingScreen" class="loading-screen">
     <div class="loading-box">
         <h1>:...:</h1>
-        <p>ENTERING MARS ORBIT...</p>
+        <p>LOADING PORTFOLIO...</p>
         <div class="loading-bar"><div class="loading-progress"></div></div>
         <span>INITIALIZING PORTFOLIO</span>
     </div>
 </div>
 
-<!-- BACKGROUND DECOR -->
 <div class="space-decor" aria-hidden="true">
-    <span class="star big"></span><span class="star"></span><span class="star"></span>
-    <span class="star big"></span><span class="star"></span><span class="star"></span>
-    <span class="star"></span><span class="star big"></span><span class="star"></span>
-    <span class="star"></span><span class="star big"></span><span class="star"></span>
-    <span class="star"></span><span class="star"></span><span class="star big"></span>
-    <div class="pixel-ship ship-one"></div>
-    <div class="pixel-ship ship-two"></div>
+    <div class="ship ship-one"></div>
+    <div class="ship ship-two"></div>
     <div class="planet"></div>
 </div>
 
-<!-- MAIN SCREEN -->
 <section id="home" class="home">
     <nav class="top-nav" aria-label="Portfolio sections">
         <button type="button" data-popup="aboutPopup">About</button>
@@ -631,23 +613,19 @@ textarea { height: 110px; resize: none; }
     </nav>
 
     <main class="hero">
-        <div class="hero-kicker">SECTOR 04 // MARS</div>
+        <div class="hero-kicker">PORTFOLIO // ONLINE</div>
         <h1>:...:</h1>
         <p class="subtitle">MY PORTFOLIO</p>
-        <p class="hero-copy">
-            Information Systems student portfolio built with a simple
-            8-bit space interface, Mars colors, and small interactive elements.
-        </p>
+        <p class="hero-copy">A simple portfolio for my work, skills, and other stuff I add here.</p>
         <a href="#game" class="game-link">PLAY MINI GAME ↓</a>
     </main>
 
-    <div class="mars-ground" aria-hidden="true"></div>
+    <div class="ground" aria-hidden="true"></div>
 </section>
 
-<!-- MINI GAME -->
 <section id="game" class="game-section">
     <div class="game-container">
-        <h2>SPACE MINI GAME</h2>
+        <h2>MINI GAME</h2>
         <p class="game-description">Catch the tiny ship as many times as you can before the timer reaches zero.</p>
 
         <div class="game-stats">
@@ -658,7 +636,7 @@ textarea { height: 110px; resize: none; }
 
         <div id="gameArea" class="game-area">
             <p id="gameMessage">PRESS START</p>
-            <button type="button" id="target" aria-label="Catch the spaceship"></button>
+            <button type="button" id="target" aria-label="Catch the ship"></button>
         </div>
 
         <button type="button" id="startGame" class="start-button">START GAME</button>
@@ -666,31 +644,19 @@ textarea { height: 110px; resize: none; }
     </div>
 </section>
 
-<!-- ABOUT POPUP -->
 <div id="aboutPopup" class="popup">
     <div class="popup-box">
-        <button type="button" class="close-button">X</button>
+        <button type="button" class="close-button" aria-label="Close">X</button>
         <h2>ABOUT ME</h2>
-        <p>
-            Hey, I'm an Information Systems student. This portfolio is mostly
-            for showing my skills and some of the stuff I've worked on.
-        </p>
-        <p>
-            I don't really have any projects to show here for now, but I'm
-            probably gonna dig through some of my old school works soon and add a few of them here.
-        </p>
-        <p>
-            Also, this whole portfolio wasn't entirely made from scratch by me.
-            I looked up some stuff online and used a bit of AI for help, but most
-            of the ideas, design choices, and how I wanted everything to look came from me.
-        </p>
+        <p>Hey, I'm an Information Systems student. This portfolio is mostly for showing my skills and some of the stuff I've worked on.</p>
+        <p>I don't really have any projects to show here for now, but I'm probably gonna dig through some of my old school works soon and add a few of them here.</p>
+        <p>Also, this whole portfolio wasn't entirely made from scratch by me. I looked up some stuff online and used a bit of AI for help, but most of the ideas, design choices, and how I wanted everything to look came from me.</p>
     </div>
 </div>
 
-<!-- PROJECTS POPUP -->
 <div id="projectsPopup" class="popup">
     <div class="popup-box">
-        <button type="button" class="close-button">X</button>
+        <button type="button" class="close-button" aria-label="Close">X</button>
         <h2>PROJECTS</h2>
         <div class="empty-projects">
             <p>No projects here for now.</p>
@@ -699,10 +665,9 @@ textarea { height: 110px; resize: none; }
     </div>
 </div>
 
-<!-- SKILLS POPUP -->
 <div id="skillsPopup" class="popup">
     <div class="popup-box">
-        <button type="button" class="close-button">X</button>
+        <button type="button" class="close-button" aria-label="Close">X</button>
         <h2>SKILLS</h2>
         <div class="skills-grid">
             <div class="skill">HTML</div>
@@ -715,15 +680,14 @@ textarea { height: 110px; resize: none; }
     </div>
 </div>
 
-<!-- CONTACT POPUP -->
 <div id="contactPopup" class="popup">
     <div class="popup-box">
-        <button type="button" class="close-button">X</button>
+        <button type="button" class="close-button" aria-label="Close">X</button>
         <h2>CONTACT ME</h2>
 
         <div class="social-links">
-            <p>Instagram: <a href="https://www.instagram.com/sweee.swe" target="_blank">@sweee.swe</a></p>
-            <p>Facebook: <a href="https://www.facebook.com/sevetse1250/" target="_blank">Swe Esteves</a></p>
+            <p>Instagram: <a href="https://www.instagram.com/sweee.swe" target="_blank" rel="noopener">@sweee.swe</a></p>
+            <p>Facebook: <a href="https://www.facebook.com/sevetse1250/" target="_blank" rel="noopener">Swe Esteves</a></p>
         </div>
 
         <form id="contactForm">
@@ -736,93 +700,58 @@ textarea { height: 110px; resize: none; }
 </div>
 
 <script>
-/* LOADING SCREEN */
-const loadingScreen = document.getElementById("loadingScreen");
-window.addEventListener("load", function () {
-    setTimeout(function () {
-        loadingScreen.classList.add("hide");
-    }, 2100);
+const $ = (selector) => document.querySelector(selector);
+const $$ = (selector) => document.querySelectorAll(selector);
+
+window.addEventListener("load", () => {
+    setTimeout(() => $("#loadingScreen").classList.add("hide"), 2100);
 });
 
-/* POPUPS */
-const popupButtons = document.querySelectorAll("[data-popup]");
-const popups = document.querySelectorAll(".popup");
-const closeButtons = document.querySelectorAll(".close-button");
+document.addEventListener("click", (event) => {
+    const openButton = event.target.closest("[data-popup]");
+    const closeButton = event.target.closest(".close-button");
 
-popupButtons.forEach(function (button) {
-    button.addEventListener("click", function () {
-        const popupID = button.getAttribute("data-popup");
-        document.getElementById(popupID).classList.add("open");
-    });
-});
-
-closeButtons.forEach(function (button) {
-    button.addEventListener("click", function () {
-        button.closest(".popup").classList.remove("open");
-    });
-});
-
-popups.forEach(function (popup) {
-    popup.addEventListener("click", function (event) {
-        if (event.target === popup) popup.classList.remove("open");
-    });
-});
-
-document.addEventListener("keydown", function (event) {
-    if (event.key === "Escape") {
-        popups.forEach(function (popup) { popup.classList.remove("open"); });
+    if (openButton) {
+        $("#" + openButton.dataset.popup).classList.add("open");
+    } else if (closeButton) {
+        closeButton.closest(".popup").classList.remove("open");
+    } else if (event.target.classList.contains("popup")) {
+        event.target.classList.remove("open");
     }
 });
 
-/* CONTACT FORM */
-const contactForm = document.getElementById("contactForm");
-contactForm.addEventListener("submit", function (event) {
+document.addEventListener("keydown", (event) => {
+    if (event.key === "Escape") {
+        $$(".popup.open").forEach((popup) => popup.classList.remove("open"));
+    }
+});
+
+$("#contactForm").addEventListener("submit", (event) => {
     event.preventDefault();
     alert("Message form submitted!");
 });
 
-/* MINI GAME */
-const startGameButton = document.getElementById("startGame");
-const target = document.getElementById("target");
-const gameArea = document.getElementById("gameArea");
-const scoreDisplay = document.getElementById("score");
-const highScoreDisplay = document.getElementById("highScore");
-const timeDisplay = document.getElementById("time");
-const gameMessage = document.getElementById("gameMessage");
+const startButton = $("#startGame");
+const target = $("#target");
+const gameArea = $("#gameArea");
+const scoreText = $("#score");
+const highScoreText = $("#highScore");
+const timeText = $("#time");
+const gameMessage = $("#gameMessage");
 
 let score = 0;
 let timeLeft = 15;
-let gameRunning = false;
 let gameTimer;
-
+let gameRunning = false;
 let highScore = Number(localStorage.getItem("jceHighScore")) || 0;
-highScoreDisplay.textContent = highScore;
+
+highScoreText.textContent = highScore;
 
 function moveTarget() {
-    const maxX = gameArea.clientWidth - target.offsetWidth - 8;
-    const maxY = gameArea.clientHeight - target.offsetHeight - 8;
-    target.style.left = Math.floor(Math.random() * Math.max(maxX, 1)) + "px";
-    target.style.top = Math.floor(Math.random() * Math.max(maxY, 1)) + "px";
-}
-
-function startGame() {
-    if (gameRunning) return;
-
-    score = 0;
-    timeLeft = 15;
-    gameRunning = true;
-    scoreDisplay.textContent = score;
-    timeDisplay.textContent = timeLeft;
-    gameMessage.style.display = "none";
-    target.style.display = "block";
-    startGameButton.textContent = "PLAYING...";
-    moveTarget();
-
-    gameTimer = setInterval(function () {
-        timeLeft--;
-        timeDisplay.textContent = timeLeft;
-        if (timeLeft <= 0) endGame();
-    }, 1000);
+    const maxX = Math.max(gameArea.clientWidth - target.offsetWidth - 8, 1);
+    const maxY = Math.max(gameArea.clientHeight - target.offsetHeight - 8, 1);
+    target.style.left = Math.floor(Math.random() * maxX) + "px";
+    target.style.top = Math.floor(Math.random() * maxY) + "px";
 }
 
 function endGame() {
@@ -833,24 +762,42 @@ function endGame() {
     if (score > highScore) {
         highScore = score;
         localStorage.setItem("jceHighScore", highScore);
-        highScoreDisplay.textContent = highScore;
+        highScoreText.textContent = highScore;
         gameMessage.textContent = "NEW HIGH SCORE: " + score;
     } else {
         gameMessage.textContent = "FINAL SCORE: " + score;
     }
 
     gameMessage.style.display = "block";
-    startGameButton.textContent = "PLAY AGAIN";
+    startButton.textContent = "PLAY AGAIN";
 }
 
-target.addEventListener("click", function () {
+function startGame() {
+    if (gameRunning) return;
+
+    score = 0;
+    timeLeft = 15;
+    gameRunning = true;
+    scoreText.textContent = score;
+    timeText.textContent = timeLeft;
+    gameMessage.style.display = "none";
+    target.style.display = "block";
+    startButton.textContent = "PLAYING...";
+    moveTarget();
+
+    gameTimer = setInterval(() => {
+        timeText.textContent = --timeLeft;
+        if (timeLeft <= 0) endGame();
+    }, 1000);
+}
+
+target.addEventListener("click", () => {
     if (!gameRunning) return;
-    score++;
-    scoreDisplay.textContent = score;
+    scoreText.textContent = ++score;
     moveTarget();
 });
 
-startGameButton.addEventListener("click", startGame);
+startButton.addEventListener("click", startGame);
 </script>
 </body>
 </html>

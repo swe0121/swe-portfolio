@@ -1,36 +1,21 @@
 # :......:
 
-just a portfolio i made. don’t expect anything good, it’s kinda eh right now but hey it works.
+just a portfolio i made. don’t expect anything crazy, it’s still kinda eh right now, but at least it works.
 
-this was actually for a school activity, but i ended up changing pretty much everything and didn’t really follow the given template. just went with my own ideas and made it look how i wanted instead.
+this originally started as a school activity, but somewhere along the way i ended up changing pretty much everything and just doing my own thing with it. didn’t really stick to the original template anymore. i just kept messing with it until it looked like something i actually wanted.
 
-might add more stuff or update it sometime, somewhere, somehow. idk we’ll see.
+there’s probably some unnecessary stuff here. actually, there definitely is. but that’s kinda the point.
 
-also yeah, everything is in one `index.html` because i’m kinda lazy to deal with separate files and fix stuff when something breaks.
+might change things, add random stuff, remove things i get tired of, or completely mess with the design again someday. idk. we’ll see.
+
+could i organize some things better? probably.
+
+am i going to right now? probably not.
 
 if it works, it works.
 
-## stuff in here
-
-- about me
-- skills
-- projects eventually
-- contact/socials
-- mini game
-- 8-bit neon stuff
-
-## btw
-
-i didn’t make everything here completely from scratch. i looked up some stuff online and used a bit of AI for help too. most of the ideas and how i wanted the whole thing to look were still mine tho.
-
-## contact
-
-the contact form doesn’t actually work btw.
-
-just use the socials if you actually wanna contact me.
-
 ## made with
 
-HTML, CSS, and JavaScript
+HTML, CSS, and JavaScript.
 
-that’s pretty much it.
+that’s pretty much it. the rest you can just find yourself.
